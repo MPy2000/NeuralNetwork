@@ -1,8 +1,0 @@
-## Neural Network 
-This is a simple modified example and implementation of a neural network inspired by the book "Make your own neural network" by Tariq Rashid(German translation). 
-This script does not correspond exactly to the original shown on the book and it's purely educational.
-
-## Python script 
-
-```python
-# NeuralNetwork.py
