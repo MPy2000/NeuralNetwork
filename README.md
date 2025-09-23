@@ -2,7 +2,7 @@
 ## Disclaimer
 
 This is a modified and simple implementation of a neural Network inspired by the book "Make your own neural network" by Tariq rashid(German translation). This script is a little more different to the original one in the book and it serves for educational purposes.
-Script
+
 
 ## NeuralNetwork.py
 
