@@ -1,0 +1,138 @@
+```python
+
+
+#What are nodes? 
+Nodes(also sometimes called a neuron) are processing units in a network in which each node receives inputs, applies weights, adds them up, and passes the sum through an activation function(also called sigmoid). 
+The number of nodes in each layer defines the network's architecture.
+
+Input nodes correspond to the features of the input data, with input_nodes = 2 becasue for XOR each training example is [0,1], [1,9],etc. making it 2 values. 
+Each input node passes the value forward without modification. 
+
+Hidden nodes are intermediate neurons between input and output, allowing the network to learn nonlinear relationships. 
+For XOR, hidden_nodes = 4 which gives the network more flexibility,because 0 hidden nodes would make it impossible to solve XOR and it would require at least 2. 
+To explain it easier, let's imagine the hidden notes are feature detectors that might detect diferent inputs. 
+
+Output nodes represent the final prediction(s), with output_nodes = the number of values to predict. 
+For XOR, output_nodes = 1, which would mean only one result per input which are either 0 or 1, and for classification with 10 digits, it would be output_nodes = 10.
+
+So to summrize the nodes in this script: 
+The input nodes take in 2 XOR Inputs (which would be 2 bits)
+The hidden nodes which are 4 serve as intermediates to process and transform the inputs. 
+The output node then produces the final prediction or XOR result which is typically a single bit, 0 or 1. 
+
+
+(train) Training method 
+
+At:
+ 
+def train(self, inputs_list, targets_list):
+
+This is the learning process. 
+
+inputs = numpy.array(inputs_list, ndmin=2).T 
+targets = numpy.array(targets_list, ndmin=2).T
+
+This changes the shape of the column vectors to have a vertical layout. 
+
+
+
+hidden_inputs = numpy.dot(self.wih, inputs)       
+hidden_outputs = self.activation_function(hidden_inputs)
+
+final_inputs = numpy.dot(self.who, hidden_outputs)  
+final_outputs = self.activation_function(final_inputs)
+
+Passthrough sigmoid activation by multiplying inputs by weights, which results in prediction production at the hidden and output layer.
+
+
+
+output_errors = targets - final_outputs
+hidden_errors = numpy.dot(self.who.T, output_errors)
+
+At output_errors : Prediction vs what it should be 
+At hidden_errors : Error will be assigned back to the hidden layer 
+
+
+
+
+self.who += self.lr * numpy.dot(
+    (output_errors * final_outputs * (1.0 - final_outputs)), 
+    numpy.transpose(hidden_outputs))
+
+self.wih += self.lr * numpy.dot(
+    (hidden_errors * hidden_outputs * (1.0 - hidden_outputs)), 
+    numpy.transpose(inputs))
+
+This is the weight update. This script represents the following formula: 
+
+Δw=η⋅error⋅f′(output)⋅input
+
+η = learning rate
+
+f′(output)=output⋅(1−output) (derivative of sigmoid)
+
+input = activations from previous layer
+
+This is needed in order to reduce error. (Gradient descent) 
+
+
+At Query method: 
+
+Forward pass only, which means no training. 
+Propagation through network -> Takes inputs and returns outputs
+Used for testing when training is completed 
+
+
+
+input_nodes = 2
+hidden_nodes = 4 
+output_nodes = 1
+learning_rate = 0.3 
+
+n = neuralNetwork(input_nodes, hidden_nodes, output_nodes, learning_rate)
+
+This is the network setup that defines the architecture. 
+Instance n is created of the neural network class. 
+
+
+training_data = [
+    ([0,0], [0]),
+    ([0,1], [1]),
+    ([1,0], [1]),
+    ([1,1], [0]),
+]
+
+Creates the XOR truth table 
+
+That looks like this: 
+
+0 XOR 0 = 0
+
+0 XOR 1 = 1
+
+1 XOR 0 = 1
+
+1 XOR 1 = 0
+
+
+epochs = 5000
+for e in range(epochs):
+    for inputs, targets in training_data:
+        n.train(inputs, targets)
+
+This represents the training loop 
+While epoch stands for a full single pass through the training data.In this case there are 5000 epochs. 
+The repetitions will help out the network to iron out the errors and converge the correct weight values. 
+
+Lats but not least the Evaluation 
+
+
+print("Query results after training:")
+print("0 XOR 0 =", n.query([0,0]))
+print("0 XOR 1 =", n.query([0,1]))
+print("1 XOR 0 =", n.query([1,0]))
+print("1 XOR 1 =", n.query([1,1]))
+
+All XOR inputs are tested after the training. In this example the values should be close to 0 or 1. 
+
+```
