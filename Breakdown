@@ -1,4 +1,4 @@
-```python
+
 
 
 #What are nodes? 
@@ -24,8 +24,9 @@ The output node then produces the final prediction or XOR result which is typica
 (train) Training method 
 
 At:
- 
-def train(self, inputs_list, targets_list):
+
+<span style="color:red">def train(self, inputs_list, targets_list):</span>
+
 
 This is the learning process. 
 
@@ -135,4 +136,4 @@ print("1 XOR 1 =", n.query([1,1]))
 
 All XOR inputs are tested after the training. In this example the values should be close to 0 or 1. 
 
-```
+
